@@ -8,7 +8,7 @@ export default class Building {
   }
 
   evacuationWarningMessage() {
-    if (!(this instanceof Building)) {
+    if (this.constructor !== Building) {
       throw new Error('Class extending Building must override evacuationWarningMessage');
     }
   }
