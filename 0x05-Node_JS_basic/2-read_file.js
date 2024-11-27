@@ -8,6 +8,7 @@ function countStudents(path) {
     lines.shift();
     let numberOfStudents = 0;
     const fields = {};
+
     for (const line of lines) {
       if (line.length !== 0) {
         numberOfStudents += 1;
@@ -18,6 +19,7 @@ function countStudents(path) {
         fields[field].push(fname);
       }
     }
+
     console.log(`Number of students: ${numberOfStudents}`);
     for (const [key, value] of Object.entries(fields)) {
       console.log(`Number of students in ${key}: ${fields[key].length}. List: ${value.join(', ')}`);
