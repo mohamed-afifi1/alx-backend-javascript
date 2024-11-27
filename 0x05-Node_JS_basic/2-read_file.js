@@ -1,32 +1,45 @@
 const fs = require('fs');
 
-function countStudents(path) {
+const countStudents = (dataPath) => {
   try {
-    const data = fs.readFileSync(path, 'utf-8');
-    const dataStr = data.toString();
-    const lines = dataStr.split('\n');
-    lines.shift();
-    let numberOfStudents = 0;
-    const fields = {};
+    if (!fs.existsSync(dataPath)) {
+      throw new Error('Cannot load the database');
+    }
+    const data = fs.readFileSync(dataPath, 'utf-8').trim();
 
-    for (const line of lines) {
-      if (line.length !== 0) {
-        numberOfStudents += 1;
-        const [fname, , , field] = line.split(',');
-        if (!fields[field]) {
-          fields[field] = [];
-        }
-        fields[field].push(fname);
+    const lines = data.split('\n').filter((line) => line.trim()); // Filter out empty lines
+    if (lines.length <= 1) {
+      throw new Error('Cannot load the database');
+    }
+
+    const students = {};
+    let totalStudents = 0;
+
+    lines.slice(1).forEach((line) => { // Skip header line
+      const studentRecord = line.split(',').map((item) => item.trim());
+      if (studentRecord.length < 4) {
+        return;
       }
-    }
 
-    console.log(`Number of students: ${numberOfStudents}`);
-    for (const [key, value] of Object.entries(fields)) {
-      console.log(`Number of students in ${key}: ${fields[key].length}. List: ${value.join(', ')}`);
-    }
-  } catch (error) {
+      const [name, , , field] = studentRecord;
+      if (!name || !field) {
+        return;
+      }
+
+      totalStudents += 1;
+      if (!students[field]) {
+        students[field] = [];
+      }
+      students[field].push(name);
+    });
+
+    console.log(`Number of students: ${totalStudents}`);
+    Object.entries(students).forEach(([field, names]) => {
+      console.log(`Number of students in ${field}: ${names.length}. List: ${names.join(', ')}`);
+    });
+  } catch (err) {
     throw new Error('Cannot load the database');
   }
-}
+};
 
 module.exports = countStudents;
