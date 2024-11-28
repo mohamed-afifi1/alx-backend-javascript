@@ -9,12 +9,12 @@ describe('calculateNumber', function () {
       assert.strictEqual(calculateNumber(1, 3.7), 5);
     });
     it('test3', function () {
-      assert.strictEqual(calculateNumber(1.5, 3), 5);
+      assert.strictEqual(calculateNumber(1.2, 3.7), 5);
     });
     it('test4', function () {
       assert.strictEqual(calculateNumber(1.5, 3.7), 6);
     });
     it('test5', function () {
-      assert.strictEqual(calculateNumber(1.2, 3.7), 5);
+      assert.strictEqual(calculateNumber(1.5, 3), 5);
     });
 });
