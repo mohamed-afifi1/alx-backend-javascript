@@ -51,8 +51,7 @@ const app = http.createServer((req, res) => {
   if (req.url === '/') {
     res.write('Hello Holberton School!');
     res.end();
-  }
-  if (req.url === '/students') {
+  } else if (req.url === '/students') {
     res.write('This is the list of our students\n');
     countStudents(process.argv[2].toString()).then((output) => {
       const outString = output.slice(0, -1);
@@ -61,10 +60,14 @@ const app = http.createServer((req, res) => {
       res.statusCode = 404;
       res.end('Cannot load the database');
     });
+  } else {
+    res.statusCode = 404;
+    res.end('Route not found');
   }
 });
 
 app.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
 });
 
 module.exports = app;
