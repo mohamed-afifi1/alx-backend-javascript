@@ -11,6 +11,7 @@ describe('getPaymentTokenFromAPI', function() {
     expect(response).to.have.property('data');
     expect(response.data).to.be.a('string');
     expect(response.data).to.equal('Successful response from the API');
+    console.log(response.data);
   });
 
   it('rejects the promise when the API call fails', async function() {
